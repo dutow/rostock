@@ -1,3 +1,5 @@
+use <polyholes.scad>
+
 module clamp(h, base){
   difference(){
     union() {
@@ -27,7 +29,7 @@ module clamp(h, base){
     // Nut traps and screw holes.
     for (x = [-25, 25]) {
       translate([x, 0, base/2]) {
-	cylinder(r = 2.2, h=base+1, center=true, $fn=12);
+	poly_cylinder(r = 2, h=base+1, center=true, $fn=12);
 	rotate([0, 0, 0]) cylinder(r=4.1, h=base, $fn=6);
       }
       translate([x*1.2, 0, base]) cube([6, 20, base], center=true);
@@ -39,4 +41,4 @@ height = 24;
 clamp(height, 8);
 
 // Increase cooling time per layer for the thin riser.
-translate([0, -20, height/2]) cube([60, 3, height], center=true);
+//translate([0, -20, height/2]) cube([60, 3, height], center=true);

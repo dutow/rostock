@@ -1,5 +1,6 @@
 include <configuration.scad>
 use <carriage.scad>
+use <polyholes.scad>
 
 h=platform_thickness;
 
@@ -25,10 +26,10 @@ module platform() {
     for (a = [0:2]) {
       rotate(a*120) {
         translate([0, -25, 0])
-          cylinder(r=2.2, h=h+1, center=true, $fn=12);
+          poly_cylinder(r=2, h=h+1, center=true, $fn=12);
         // Screw holes for adjustable bottom endstops.
         translate([0, 45, 0])
-          cylinder(r=1.5, h=h+1, center=true, $fn=12);
+          poly_cylinder(r=1.5, h=h+1, center=true, $fn=12);
       }
     }
   }

@@ -1,4 +1,5 @@
 include <configuration.scad>
+use <polyholes.scad>
 
 width = 76;
 height = carriage_height;
@@ -21,7 +22,7 @@ module parallel_joints(reinforced) {
       }
       translate([0, 8, 0]) cube([width, 16, 8], center=true);
     }
-    rotate([0, 90, 0]) cylinder(r=1.55, h=80, center=true, $fn=12);
+    rotate([0, 90, 0]) poly_cylinder(r=1.5, h=80, center=true, $fn=12);
 
     for (x = [-offset, offset]) {
       translate([x, 5.5, 0])
@@ -43,7 +44,7 @@ module lm8uu_mount(d, h) {
         cylinder(r=11, h=h, center=true);
         translate([0, -8, 0]) cube([19, 13, h+1], center=true);
       }
-      cylinder(r=d/2, h=h+1, center=true);
+      poly_cylinder(r=d/2, h=h+1, center=true);
     }
   }
 }

@@ -1,5 +1,6 @@
 $fa = 12;
 $fs = 0.5;
+use <polyholes.scad>
 
 w = 60; // Smooth rod distance (center to center)
 
@@ -8,7 +9,7 @@ module screws() {
     translate([x, 0, 0]) {
       // Push-through M3 screw hole.
       translate([0, -6, 0]) rotate([0, 90, 0])
-	cylinder(r=1.65, h=20, center=true);
+	poly_cylinder(r=1.5, h=20, center=true);
       // M3 nut holder.
       translate([-x/5, -6, 0])
 	rotate([30, 0, 0]) rotate([0, 90, 0])
@@ -26,12 +27,12 @@ module bracket(h) {
       translate([w/2, 10, 0]) cylinder(r=6, h=h, center=true);
     }
     // Sandwich mount.
-    translate([-w/2, 12, 0]) cylinder(r=1.9, h=h+1, center=true);
-    translate([w/2, 12, 0]) cylinder(r=1.9, h=h+1, center=true);
+    translate([-w/2, 12, 0]) poly_cylinder(r=1.5, h=h+1, center=true);
+    translate([w/2, 12, 0]) poly_cylinder(r=1.5, h=h+1, center=true);
     // Smooth rod mounting slots.
     for (x = [-w/2, w/2]) {
       translate([x, 0, 0]) {
-	cylinder(r=4.2, h=h+1, center=true);
+	poly_cylinder(r=4, h=h+1, center=true);
 	translate([0, -10, 0]) cube([2, 20, h+1], center=true);
       }
     }

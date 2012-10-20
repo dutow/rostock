@@ -1,3 +1,5 @@
+use <polyholes.scad>
+
 h = 7;
 r = h/2 / cos(30);
 
@@ -15,8 +17,8 @@ module middle() {
       translate([2, 0, 0]) stumpy();
       rotate([0, 0, 90]) stumpy();
     }
-    rotate([90, 0, 0]) cylinder(r=1.5, h=30, center=true, $fn=12);
-    rotate([0, 90, 0]) cylinder(r=1.5, h=30, center=true, $fn=12);
+    rotate([90, 0, 0]) poly_cylinder(r=1.4, h=30, center=true, $fn=12);
+    rotate([0, 90, 0]) poly_cylinder(r=1.4, h=30, center=true, $fn=12);
   }
 }
 
