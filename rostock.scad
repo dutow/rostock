@@ -12,8 +12,15 @@ aluminum = [0.9, 0.9, 0.9];
 steel = [0.8, 0.8, 0.9];
 use_stls=false;
 
+tower_radius = rod_radius + carriage_hinge_offset + platform_hinge_offset;
+
 //build radius for animation.
-br=50;
+br=rod_radius;
+
+echo(str("TOWER_RADIUS =", tower_radius));
+echo(str("BUILD VOLUME_Z =", (smooth_rod_length - rod_length - motor_end_height - bed_thickness - idler_end_height)));
+echo(str("BUILD VOLUME_RAD =", rod_radius));
+
 
 platformxyz=[cos($t*360)*br,sin($t*360)*br,30];
 
@@ -21,11 +28,12 @@ belt_length=smooth_rod_length-motor_end_height/2-idler_end_height/2;
 
 module smooth_rod() 
 {
-	color(steel) cylinder(r=4, h=smooth_rod_length);
+	color(steel) cylinder(r=smooth_rod_radius, h=smooth_rod_length);
 }
 
 module tower(height) 
 {
+        carriage_pivot_z_offset = 8;
 	translate([0, tower_radius, 0]) 
 	{
 		translate([0, 0, motor_end_height]) 
@@ -36,39 +44,35 @@ module tower(height)
 		rotate(180)
 		if (use_stls) import ("idler_end.stl"); else idler_end();
 
-		translate([30, 0, 0]) smooth_rod();
-		translate([-30, 0, 0]) smooth_rod();
+		translate([smooth_rod_separation/2, 0, 0]) smooth_rod();
+		translate([-smooth_rod_separation/2, 0, 0]) smooth_rod();
 
-		translate([0, 0, motor_end_height+bed_thickness+pcb_thickness+8+platformxyz[2]+height]) 
+		translate([0, 0, motor_end_height+bed_thickness+pcb_thickness+carriage_pivot_z_offset+platformxyz[2]+height]) 
 		rotate([0, 180, 0]) 
 		{
 			if (use_stls) import ("carriage.stl"); else render() carriage();
-			for(j=[-30,30])
+			for(j=[-smooth_rod_separation/2,smooth_rod_separation/2])
 			translate([j,0,0])
-			lm8uu();
+			bearing(smooth_rod_bearing);
 		}
 
 		translate([0, 17-10, motor_end_height/2]) nema17(47);
 
 		// Ball bearings for timing belt
 		translate([0,-4, smooth_rod_length-28/2]) 
-		bearing(8, 22, 7);
+		rotate([-90, 0, 0]) bearing(idler_bearing);
 
 		// Timing belt
-		translate([-22/2,-4+7/2, belt_length/2+motor_end_height/2]) 
-		rotate([0, 90, 0]) 
-		timing_belt(belt_length);
-
-		translate([22/2,-4+7/2, belt_length/2+motor_end_height/2]) 
-		rotate([0, 90, 0]) 
-		timing_belt(belt_length);
+                for (i = [-1, 1])
+		translate([i * idler_bearing[1]/2,-4+7/2, belt_length/2+motor_end_height/2]) 
+		rotate([0, 90, 0]) timing_belt(belt_length);
 	}
 }
 
 module rod_pair(lean_y,lean_x)
 {
 	for(i=[-1,1])
-	translate([25*i,platform_hinge_offset,0])
+	translate([rod_separation/2*i,platform_hinge_offset,0])
 	rotate([lean_x,0,0])
 	rotate([0,lean_y,0])
 	rotate([0, -90, 0]) 

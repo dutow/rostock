@@ -6,8 +6,8 @@ h = idler_end_height; // Total height.
 tilt = 2; // Tilt bearings upward (the timing belt is pulling pretty hard).
 
 module bearing_mount() {
-  translate([0, 0, 2.3]) cylinder(r1=12, r2=9, h=1.1, center=true);
-  translate([0, 0, -2.3]) cylinder(r1=9, r2=12, h=1.1, center=true);
+  translate([0, 0, 2.3]) cylinder(r1=idler_bearing[1]/2+1, r2=idler_bearing[1]/2-2, h=1.1, center=true);
+  translate([0, 0, -2.3]) cylinder(r1=idler_bearing[1]/2-2, r2=idler_bearing[1]/2+1, h=1.1, center=true);
 }
 
 x = 17.7; // Micro switch center.
@@ -38,7 +38,7 @@ module idler_end() {
 	poly_cylinder(r=0.7, h=26, center=true);
     }
     translate([0, 8, 0]) rotate([90 - tilt, 0, 0])
-      poly_cylinder(r=4, h=40, center=true);
+      poly_cylinder(r=idler_bearing[0]/2, h=40, center=true);
     for (z = [-7, 7]) {
       translate([0, 0, z]) screws();
     }
