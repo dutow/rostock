@@ -17,9 +17,22 @@ tower_radius = rod_radius + carriage_hinge_offset + platform_hinge_offset;
 //build radius for animation.
 br=rod_radius;
 
-echo(str("TOWER_RADIUS =", tower_radius));
+
+echo(str("Marlin config:"));
+echo(str("DELTA_DIAGONAL_ROD =", rod_length));
+echo(str("DELTA_SMOOTH_ROD_OFFSET =", tower_radius));
+echo(str("DELTA_EFFECTOR_OFFSET =", platform_hinge_offset));
+echo(str("DELTA_CARRIAGE_OFFSET =", carriage_hinge_offset));
+echo(str("DELTA_RADIUS =", rod_radius));
+
+echo(str("Smoothieware config:"));
+echo(str("arm_solution linear_delta"));
+echo(str("arm_length ", rod_length));
+echo(str("arm_radius ", rod_radius));
+
+echo(str("Build volume:"));
 echo(str("BUILD VOLUME_Z =", (smooth_rod_length - rod_length - motor_end_height - bed_thickness - idler_end_height)));
-echo(str("BUILD VOLUME_RAD =", rod_radius));
+echo(str("BUILD VOLUME_RADIUS =", rod_radius));
 
 
 platformxyz=[cos($t*360)*br,sin($t*360)*br,30];

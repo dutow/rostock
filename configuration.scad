@@ -16,8 +16,8 @@ smooth_rod_bearing = bearinglm10uu;
 motor_end_height = 44;
 
 idler_end_height = 28;
-//idler_bearing = bearing608;
-idler_bearing = bearing624;
+//idler_bearing = bearing608;  // For 20 tooth GT2
+idler_bearing = bearing624;  // For 16 thooth GT2
 
 platform_thickness = 8;
 platform_hinge_offset = 33;
@@ -31,7 +31,7 @@ rod_separation = 50;
 rod_length = 250;
 rod_radius = 124;
 
-
+// These are needed by modules in a couple of different files
 carriage_height = smooth_rod_bearing[2];
 carriage_hinge_offset = smooth_rod_bearing[1]/2+14.5;
 
