@@ -6,16 +6,23 @@ cutout = 12.5;
 inset = 6;
 
 module platform() {
-  translate([0, 0, platform_thickness/2]) 
+  translate([0, 0, platform_thickness/2 - (ball_joints ? cup_offset : 0)]) 
   difference() {
     union() {
       for (a = [0:120:359]) {
         rotate([0, 0, a]) {
-          translate([0, -platform_hinge_offset, 0]) parallel_joints();
+          translate([0, -platform_hinge_offset, 0]) 
+          if (ball_joints) {
+              ball_parallel_joints();
+          } else {
+              parallel_joints();
+          }
           // Close little triangle holes.
           translate([0, 31, 0]) cylinder(r=5, h=platform_thickness, center=true);
           // Holder for adjustable bottom endstops.
-          translate([0, 45, 0]) cylinder(r=5, h=platform_thickness, center=true);
+          if (bottom_endstops) {
+              translate([0, 45, 0]) cylinder(r=5, h=platform_thickness, center=true);
+          }
         }
       }
       cylinder(r=30, h=platform_thickness, center=true);

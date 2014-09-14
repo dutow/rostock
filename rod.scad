@@ -42,6 +42,17 @@ module rod(l) {
   }
 }
 
+// Rod with two Y shaped rod ends.
+module ball_rod(l) {
+  translate([l/2,0,0])
+  union() {
+    translate([-l/2, 0, 0]) sphere(r=ball_rad);
+    translate([l/2, 0, 0]) rotate([0, 0, 180]) sphere(r=ball_rad);
+    rotate([0, 90, 0]) rotate([0, 0, 30])
+      cylinder(r=r, h=l, center=true, $fn=6);
+  }
+}
+
 module printable_rod(l)
 {
 	// Print platform.

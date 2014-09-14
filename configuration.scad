@@ -35,3 +35,10 @@ rod_radius = 124;
 carriage_height = smooth_rod_bearing[2];
 carriage_hinge_offset = smooth_rod_bearing[1]/2+14.5;
 
+bottom_endstops = false; // If true, adds extra mount points to the platform
+ball_joints = true;
+ball_rad = 9.5 / 2 + 0.2; // Add a little extra radius for glue
+cup_rad = ball_rad + 1;
+cup_offset = cup_rad-platform_thickness/2;
+
+

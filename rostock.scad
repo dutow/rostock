@@ -90,7 +90,11 @@ module rod_pair(lean_y,lean_x)
 	rotate([0,lean_y,0])
 	rotate([0, -90, 0]) 
 	if (use_stls) import ("rod.stl"); else 
-	rod(rod_length);
+	if (ball_joints) {
+            ball_rod(rod_length);
+        } else {
+            rod(rod_length);
+        }
 }
 
 module rostock() 
