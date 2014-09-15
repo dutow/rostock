@@ -28,3 +28,16 @@ module poly_d_cylinder(r, center = false) {
     translate([0, -r, 0])
         cube([r, 2 * r, h]);
 }
+
+/**
+ * Make a thin-walled cylindrical tube.
+ * @param r outside radius
+ * @param h height of tube
+ * @param thickness wall thickness
+ */
+module poly_tube(r = 5, h = 5, thickness = 1, center = false) {
+    translate(center ? [0, 0, -h / 2] : 0) linear_extrude(height = h) difference() {
+        circle(r);
+        poly_circle(r - thickness);
+    }
+}

@@ -90,7 +90,7 @@ module lm8uu_mount(d, h) {
   }
 }
 
-module belt_mount() {
+module belt_mount(height=height) {
   translate([idler_bearing[1]/2 - 2, 0, 0]) {
     union() {
       #difference() {
