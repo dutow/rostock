@@ -133,8 +133,8 @@ module rostock()
 
 	color([0.9, 0, 0]) 
 	translate([0, 0, motor_end_height+bed_thickness+pcb_thickness/2])
-	cube([200, 200, pcb_thickness], center=true);
-	//cube([tower_radius*1.4, tower_radius*1.4, pcb_thickness], center=true);
+	//cube([200, 200, pcb_thickness], center=true);
+	cube([tower_radius*1.4, tower_radius*1.4, pcb_thickness], center=true);
 }
 
 rostock();
