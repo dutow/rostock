@@ -11,33 +11,47 @@ mini = true; // true = Rostock mini, false = whatever ya want
 small_pulley = mini ? false : true;  // true = 16 thooth GT2, false = 20 tooth GT2
 
 smooth_rod_separation = 60;
-smooth_rod_length = mini ? 450 : 770;
+smooth_rod_length = mini ? 450 : 1000;
 smooth_rod_radius = mini ? 4 : 6;
 smooth_rod_bearing = mini ? bearinglm8uu : bearinglm12uu;
 
-bracket_fin_length = mini ? 45 : 70;
+bracket_fin_length = mini ? 45 : 45;
+bracket_bracket_length = 30;
+bracket_side_thickness = mini ? 12 : 16;
+bracket_screw_separation = 15;
 
-motor_end_height = 44;
+motor_end_height = mini ? 44 : 50;
+motor_height_offset = (motor_end_height - 42 - 2)/2; // Height offset of nema 17 motor (we will put at top end of the bracket)
 
 idler_end_height = 28;
 idler_bearing = small_pulley ? bearing624 : bearing608;
+idler_height_offset = idler_bearing[1]/2 + 5; // Height offset of idler (we will put at bottom end of the bracket)
+
+fixing_end_height = 30;
+fixing_ends = mini ? false : true;  // Extra fixing brackets
+
+motor_end_total = mini ? motor_end_height : 125;
+idler_end_total = mini ? idler_end_height : 80;
 
 platform_thickness = 8;
 platform_hinge_offset = 33;
 
 bed_thickness = 12;
 pcb_thickness = 2;
+pcb_side = mini ? 150 : 200;
 
 rod_separation = 50;
-rod_length = mini ? 150 : 250;
-rod_radius = mini ? 75 : 124;
+rod_length = mini ? 150 : 284;
+rod_radius = mini ? 75 : 142;
 
 // These are needed by modules in a couple of different files
 carriage_height = smooth_rod_bearing[2];
 carriage_hinge_offset = smooth_rod_bearing[1]/2+14.5;
 
-idler_fins = mini ? false : true;       // If true, add fins to the idler brackets for extra stability at the top
 box_idler = mini ? false : true;        // If true, add boxing around idler bearing to reduce axle torque
+idler_end_bracing = mini ? "none" : "brackets";       // "none", "fins", "brackets"
+motor_end_bracing = mini ? "fins" : "brackets";    // If true, add fins to the brackets to allow fixing triangular sides
+fixing_end_bracing = "brackets";
 
 bottom_endstops = false; // If true, adds extra mount points to the platform
 

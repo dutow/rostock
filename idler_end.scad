@@ -1,4 +1,5 @@
 include <configuration.scad>
+
 use <bracket.scad>
 use <polyholes.scad>
 
@@ -17,7 +18,7 @@ module idler_box() {
     padding=4;
     round_rad=3;
     box_y=idler_bearing[2]*2+2;
-    translate([0, 0, -h/2]) linear_extrude(height=h, convexity=2) difference() {
+    translate([0, 0, - h/2]) linear_extrude(height=idler_height_offset * 2, convexity=2) difference() {
         hull() {
             translate([0, 5]) square([idler_bearing[1]+2*(thickness+padding), 1], center=true);
             for (x=[-1, 1]) {
@@ -33,40 +34,49 @@ module idler_box() {
     }
 }
 
-x = 17.7; // Micro switch center.
-y = 16; // Micro switch center.
-
+x = 20.9; // Micro switch center.
+y = 18.5; // Micro switch center.
+endstop_angle = 45;
 module idler_end() {
   translate([0, 0, h/2]) 
   difference() {
     union() {
-      mirror([0, 0, 1]) bracket(h,fins=idler_fins);
+      mirror([0, 0, 1]) bracket(h,bracing=idler_end_bracing,rods=false);
       if (box_idler) idler_box();
-      translate([0, 7.0, 0]) rotate([90 - tilt, 0, 0]) bearing_mount();
+      translate([0, 7.0, - h/2 + idler_height_offset]) rotate([90 - tilt, 0, 0]) bearing_mount();
       // Micro switch placeholder.
-      % translate([x, y, -h/2+4]) rotate([0, 0, 15])
-          cube([19.6, 6.34, 10.2], center=true);
+      % translate([x, y, -h/2+4]) rotate([0, 0, endstop_angle]) {
+          cube([19.6, 6.7, 10.7], center=true);
+          translate([-19.6/2+7, 0, -10.7/2-1]) cube([2, 4, 2], center=true);
+      }
       difference() {
-        translate([20, 11.88, -h/2+5])
-          cube([18, 8, 10], center=true);
-        translate([x, y, -h/2+4]) rotate([0, 0, 15])
-          cube([30, 6.34, 20], center=true);
-        translate([30, 12, -h/2+5])
-          cylinder(r=3, h=20, center=true);
+        // Endstop mount
+        hull() {
+            translate([26, 8, -h/2+5]) cube([19, 0.1, 10], center=true);
+            translate([x, y, -h/2+5]) rotate([0, 0, endstop_angle]) translate([0, -3.3, 0]) cube([19.6, 0.1, 10], center=true);
+        }
+        //translate([22, 15.88, -h/2+5]) cube([17, 14, 10], center=true);
+        // Endstop mount
+        translate([x, y, -h/2+4]) rotate([0, 0, endstop_angle]) translate([0, 2, 0]) cube([30, 10.7, 20], center=true);
+        // Bed mount hole
+        translate([30, 12, -h/2+5]) cylinder(r=3, h=20, center=true);
       }
     }
-    translate([x, y, -h/2+6]) rotate([0, 0, 15]) {
-      translate([-9.5/2, 0, 0]) rotate([90, 0, 0])
-	poly_cylinder(r=0.7, h=26, center=true);
-      translate([9.5/2, 0, 0]) rotate([90, 0, 0])
-	poly_cylinder(r=0.7, h=26, center=true);
+    // Micro switch screw holes
+    #translate([x, y, -h/2+6]) rotate([0, 0, endstop_angle]) {
+      for (xoff = [-9.5/2, 9.5/2])
+        translate([xoff, 0, 0]) rotate([90, 0, 0]) translate([0, 0, -3.5]) poly_cylinder(r=0.7, h=20, center=false);
     }
-    translate([0, 8, 0]) rotate([90 - tilt, 0, 0])
+    // Idler axle hole
+    translate([0, 8, - h/2 + idler_height_offset]) rotate([90 - tilt, 0, 0])
       poly_cylinder(r=idler_bearing[0]/2, h=50, center=true);
-    for (z = [-7, 7]) {
-      translate([0, 0, z]) screws();
-    }
   }
 }
 
-idler_end();
+module fixing_bracket() {
+  translate([0, 0, fixing_end_height/2]) 
+  mirror([0, 0, 1]) bracket(fixing_end_height,bracing=fixing_end_bracing, rods=true);
+}
+
+//translate([0, 0, idler_end_height]) rotate([180, 0, 0]) idler_end();
+translate([0, 0, fixing_end_height]) rotate([180, 0, 0]) fixing_bracket();

@@ -2,6 +2,9 @@ include <configuration.scad>
 use <carriage.scad>
 use <polyholes.scad>
 
+$fa=1;
+$fs=1.5;
+
 cutout = 12.5;
 inset = 6;
 

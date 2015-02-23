@@ -3,8 +3,8 @@ use <polyholes.scad>
 use <bearing.scad>
 use <carriage.scad>
 
-//$fa=1;
-//$fs=2;
+$fa=1;
+$fs=1.5;
 
 print=1;  // set to 1 to get print version
 
@@ -20,7 +20,7 @@ washer =  washerM3;
 bearingBolt = boltM3;
 tensionBolt = boltM3;
 
-bearingSpacing = 20; // vertical space between bearings
+bearingSpacing = 22; // vertical space between bearings
 bearingClearanceOuter = outside_diameter(bearing) + 4; // Space around the outer diameter of the bearing
 bearingClearanceWidth = width(bearing) + width(washer) * 2 + 0.25; // Space around the outer diameter of the bearing
 
@@ -38,8 +38,8 @@ module bearingMountHole() {
         // Axle
         poly_cylinder(r=boltRad, h=20, center=true);
         // Room for nut / bolt head
-        translate([0,0,-(4+width(bearing)/2+3.5)]) cylinder(r=nutRad, h=8, center=true, $fn=6);
-        translate([0,0,(10+width(bearing)/2+3.5)]) cylinder(r=headRad, h=20, center=true);
+        translate([0,0,-(4+width(bearing)/2+4.5)]) cylinder(r=nutRad, h=8, center=true, $fn=6);
+        translate([0,0,(10+width(bearing)/2+4.5)]) cylinder(r=headRad, h=20, center=true);
     }
 }
 
@@ -49,8 +49,8 @@ module tensionBoltHole() {
     nutRad = tensionBolt[2]/2;
     rotate([0,90,0]) {
         cylinder(r=boltRad, h=40, center=true);
-        translate([0,0,(10+width(bearing)/2+3.5)]) cylinder(r=nutRad, h=20, center=true, $fn=6);
-        translate([0,0,-(10+width(bearing)/2+3.5)]) cylinder(r=headRad, h=20, center=true);
+        translate([0,0,(10+width(bearing)/2+4.5)]) cylinder(r=nutRad, h=20, center=true, $fn=6);
+        translate([0,0,-(10+width(bearing)/2+4.5)]) cylinder(r=headRad, h=20, center=true);
     }
 }
 
@@ -80,7 +80,7 @@ module bearingPositions() {
     // gaps around bearings, "unconstrained" rod
     translate([smooth_rod_separation/2,0,0]) {
         for (t=[0,1]) {
-            mirror([t,0,0]) positionOnShaft(angle=180*t, zoffset=-5) children(0);
+            mirror([t,0,0]) positionOnShaft(angle=180*t, zoffset=-9) children(0);
         }
     }
 }
@@ -93,7 +93,7 @@ module clampPositions() {
     
     // Hole for tension clamp bolt, "unconstrained" rod
     translate([smooth_rod_separation/2,0,0]) {
-        mirror([0, 1, 0]) positionOnShaft(angle=90, zoffset=-bearingSpacing*3/4, radius=(shaftDiameter+tensionBolt[1])/2+shaftGap) children(0);
+        mirror([0, 1, 0]) positionOnShaft(angle=90, zoffset=-19, radius=(shaftDiameter+tensionBolt[1])/2+shaftGap) children(0);
     }
 }
 
@@ -114,7 +114,7 @@ module bearingBulge() {
 }
 
 module housing() {
-    totalHeight=2*bearingSpacing+outside_diameter(bearing)+2;
+    totalHeight=2*bearingSpacing+outside_diameter(bearing)+5;
     shortHeight=totalHeight/2+bearingClearanceOuter/2;
     translate([0, 0, totalHeight/2 - (ball_joints ? cup_offset : 0)]) 
     difference() {
@@ -160,6 +160,9 @@ module housing() {
             bearingPositions() bearingMountHole();
 
             clampPositions() tensionBoltHole();
+
+            // Screw hole for adjustable top endstop.
+            #translate([19, -16.5, -totalHeight/2+4]) cylinder(r=1.5, h=20, center=true, $fn=12);
         }
     }
 }
@@ -190,5 +193,9 @@ if (0) {
         % bearingsAndShafts();
     }
 }
+
+// Uncomment the following lines to check endstop alignment.
+//use <idler_end.scad>;
+//translate([0, 0, -10]) rotate([180, 0, 0]) idler_end();
 
 

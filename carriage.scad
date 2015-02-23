@@ -20,23 +20,16 @@ module ball_parallel_joints(reinforced=0) {
     union() {
       for (i = [-1, 1]) {
         hull() {
-           translate([i*offset, 0, cup_offset]) rotate([cup_angle, 0, 0]) difference() {
-                sphere(r = cup_rad);
-                translate([0, cup_crop_y-attachment_width, 0]) cube([width, attachment_width*2, attachment_width*2], center = true);
+            translate([i*offset, 0, 0]) difference() {
+                translate([0, 0, cup_offset]) rotate([270+cup_angle, 0, 0]) translate([0, 0, cup_crop_y]) cylinder(r = cup_rad, h = 20);
+                translate([0, 10, -platform_thickness/2-10]) cube([width, 30, 20], center = true);
             }
             if (reinforced>0) {
-                translate([i*(offset+cup_rad-reinforced/2), 16, -platform_thickness/2+(platform_thickness+reinforced/2)/2]) cube([reinforced, 0.1, platform_thickness+reinforced/2], center = true);
+                translate([i*(offset+cup_rad-reinforced/2), 18, -platform_thickness/2+(platform_thickness+reinforced/2)/2]) cube([reinforced, 0.1, platform_thickness+reinforced/2], center = true);
             } else {
-                translate([i*offset, 16, 0]) cube([attachment_width, 0.1, platform_thickness], center = true);
+                #translate([i*offset, 18, 0]) cube([attachment_width, 0.1, platform_thickness], center = true);
             }
         }
-      }
-      *translate([-width/2, 18-reinforced/2*1.4, -platform_thickness/2]) cube([width,reinforced/2*1.4, platform_thickness]);
-      // Reinforcing
-      *intersection() {
-        translate([0, 18, platform_thickness/2]) rotate([45, 0, 0])
-          cube([width, reinforced, reinforced], center=true);
-        #translate([-width/2, 0, 0]) cube([width, 18, 40]);
       }
     }
 
@@ -125,8 +118,8 @@ module carriage() {
         }
       }
       // Screw hole for adjustable top endstop.
-      translate([15, -16, -height/2+4])
-        cylinder(r=1.5, h=20, center=true, $fn=12);
+      translate([18, -16, -height/2+4]) cylinder(r=1.5, h=20, center=true, $fn=12);
+
       for (x = [-smooth_rod_separation/2, smooth_rod_separation/2]) {
         translate([x, 0, 0])
           cylinder(r=smooth_rod_bearing[1]/2+0.5, h=height+1, center=true);
@@ -142,5 +135,5 @@ module carriage() {
 carriage();
 
 // Uncomment the following lines to check endstop alignment.
-// use <idler_end.scad>;
-// translate([0, 0, -20]) rotate([180, 0, 0]) idler_end();
+use <idler_end.scad>;
+translate([0, 0, -20]) rotate([180, 0, 0]) idler_end();
