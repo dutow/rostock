@@ -41,9 +41,10 @@ function rodpos(angle, side = 1) = [
     tower_radius * cos(angle) + smooth_rod_separation / 2 * cos(angle + side * 90), 
     -10];
 
+smooth_rod_side_separation = rodpos(120,1)[0] - rodpos(240,-1)[0];
 echo(str("IDLER END TOTAL HEIGHT = ", idler_end_total)); // E.g. height if making wooden framing for idler end
 echo(str("MOTOR END TOTAL HEIGHT = ", motor_end_total)); // E.g. height if making wooden framing for motor end
-echo(str("SMOOTH ROD SIDE SEPARATION =", rodpos(120,1)[0] - rodpos(240,-1)[0])); // E.g. rod-to-rod side panel distance
+echo(str("SMOOTH ROD SIDE SEPARATION =", smooth_rod_side_separation)); // E.g. rod-to-rod side panel distance
 
 platformxyz=[cos($t*360)*br,sin($t*360)*br,30];
 
@@ -130,6 +131,11 @@ module rostock()
 	rotate(angle)
 	translate([0,0,motor_end_total+bed_thickness+pcb_thickness+ platform_thickness/2])
 	rod_pair(lean_y,lean_x);
+
+        if (side_panels) %rotate(angle) translate([-(smooth_rod_side_separation - 20) / 2, rodpos(120,1)[1] - 11, 0]) {
+            translate([0, 0, smooth_rod_length - idler_end_total]) cube([smooth_rod_side_separation - 20, 6, idler_end_total]);
+            cube([smooth_rod_side_separation - 20, 6, motor_end_total]);
+        }
     }
 
     translate(platformxyz + [0, 0, motor_end_total+bed_thickness+pcb_thickness]) 

@@ -52,6 +52,7 @@ box_idler = mini ? false : true;        // If true, add boxing around idler bear
 idler_end_bracing = mini ? "none" : "brackets";       // "none", "fins", "brackets"
 motor_end_bracing = mini ? "fins" : "brackets";    // If true, add fins to the brackets to allow fixing triangular sides
 fixing_end_bracing = "brackets";
+side_panels = fixing_ends;
 
 bottom_endstops = false; // If true, adds extra mount points to the platform
 
