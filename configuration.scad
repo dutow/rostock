@@ -59,7 +59,7 @@ side_panels = fixing_ends;
 bottom_endstops = false; // If true, adds extra mount points to the platform
 
 ball_joints = mini ? false : true;
-ball_rad = 9.5 / 2 + 0.2; // Add a little extra radius for glue
+ball_rad = 8.0 / 2 + 0.2; // Add a little extra radius for glue
 cup_rad = ball_rad + 1;
 cup_offset = cup_rad-platform_thickness/2;
 
