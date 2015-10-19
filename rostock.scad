@@ -83,7 +83,7 @@ module tower(height)
 			bearing(smooth_rod_bearing);
 		}
 
-		translate([0, 17-10, motor_end_total - (motor_end_height/2 + motor_height_offset)]) nema17(47);
+		translate([0, 17-10, motor_end_total - (motor_end_height/2 + motor_height_offset)]) nema(51);
 
 		// Ball bearings for timing belt
 		translate([0,-4, smooth_rod_length-(idler_end_total - (idler_end_height-idler_height_offset))])
@@ -148,6 +148,8 @@ module rostock()
     // Roof
     % translate([0, 0, smooth_rod_length+bed_thickness/2])
     cylinder(r=(tower_radius-smooth_rod_radius)/cos(30), h=bed_thickness, center=true, $fn=6);
+
+    echo(str("Cylinder radius: ", (tower_radius-smooth_rod_radius)/cos(30)));
 
     // PCB
     color([0.9, 0, 0]) 

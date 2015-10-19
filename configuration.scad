@@ -6,11 +6,13 @@ bearinglm8uu = [8, 15, 25];
 bearinglm10uu = [10, 19, 29];
 bearinglm12uu = [12, 21, 31];
 
-mini = true; // true = Rostock mini, false = whatever ya want
+mini = false; // true = Rostock mini, false = whatever ya want
+
+motor_size = 57; // 42 = nema17 ; 57 = nema23 
 
 small_pulley = mini ? false : true;  // true = 16 thooth GT2, false = 20 tooth GT2
 
-smooth_rod_separation = 60;
+smooth_rod_separation = 90;
 smooth_rod_length = mini ? 450 : 1000;
 smooth_rod_radius = mini ? 4 : 6;
 smooth_rod_bearing = mini ? bearinglm8uu : bearinglm12uu;
@@ -20,8 +22,8 @@ bracket_bracket_length = 30;
 bracket_side_thickness = mini ? 12 : 16;
 bracket_screw_separation = 15;
 
-motor_end_height = mini ? 44 : 50;
-motor_height_offset = (motor_end_height - 42 - 2)/2; // Height offset of nema 17 motor (we will put at top end of the bracket)
+motor_end_height = mini ? 44 : 70;
+motor_height_offset = (motor_end_height - motor_size - 12)/2; // Height offset of nema 17/23 motor (we will put at top end of the bracket)
 
 idler_end_height = 28;
 idler_bearing = small_pulley ? bearing624 : bearing608;

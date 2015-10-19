@@ -1,7 +1,7 @@
 include <configuration.scad>
 use <bracket.scad>
 
-m = 29; // Motor mounting screws distance (center to center)
+m = 47; // Motor mounting screws distance (center to center) 29 - nema17 47 - nema23
 
 module motor_end() {
   translate([0, 0, motor_end_height/2]) 
